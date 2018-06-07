@@ -34,3 +34,10 @@ class NaiveBayes:
 		self.variance = variance 			#train data variance table  (PS:GROUPED)
 		self.classificationGroup = classificationGroup 	#GROUP operation - pd.DataFrame
 ```
+
+
+
+
+## License
+
+[The MIT License](https://github.com/bravotty/DataMining_NaiveBayes/blob/master/LICENSE)
