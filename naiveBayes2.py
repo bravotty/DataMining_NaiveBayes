@@ -9,11 +9,11 @@ import tools as tl
 import math
 
 class NaiveBayes:
-	def __init__(self, train=None, trainLabel=None, mean=None, var=None, classificationGroup=None):
+	def __init__(self, train=None, trainLabel=None, mean=None, variance=None, classificationGroup=None):
 		self.train = train                                #train data
 		self.trainLabel = trainLabel 					  #train data label
 		self.mean = mean 								  #train data mean table (PS:GROUPED)
-		self.var = var  								  #train data variance table  (PS:GROUPED)
+		self.variance = variance  								  #train data variance table  (PS:GROUPED)
 		self.classificationGroup = classificationGroup    #GROUP operation - pd.DataFrame
 
 	def fitTransform(self, trainX, trainLabelX):
@@ -35,15 +35,12 @@ class NaiveBayes:
 		# class3  ...
 		# class4  ...
 		self.mean = self.classificationGroup.mean()
-		self.var  = self.classificationGroup.var()
+		self.variance  = self.classificationGroup.var()
 	
 	#normal distribution
-	def normalDistributionCalculateFunction(self, val, mean, var):
-		if var == 0:
-			var = 0.001
-
-		coff = 1 / (math.sqrt(2 * math.pi * var))
-		exp  = math.exp(-pow(val - mean, 2) / (2 * var))
+	def normalDistributionCalculateFunction(self, val, mean, variance):
+		coff = 1 / (math.sqrt(2 * math.pi * variance))
+		exp  = math.exp(- pow(val - mean, 2) / (2 * variance))
 		res  = coff * exp
 		return res
 
@@ -51,22 +48,23 @@ class NaiveBayes:
     	#initial with eg nums of labels
 		groupNum = self.classificationGroup.count()
 		groupNumLabel = groupNum.iloc[:, -1].tolist();
-		    	#cal the P(Y) = [..., ... , ..., ...]
+		print groupNumLabel
+		#cal the P(Y) = [..., ... , ..., ...]
 		groupProbility = [n / sum(groupNumLabel) for n in groupNumLabel]
 		print groupProbility
 		for i in range(len(trainE)):
 			P = []
 			for j in range(len(self.labels)):
-				P.append(self.normalDistributionCalculateFunction(trainE[i], self.mean.iloc[j, i], self.var.iloc[j, i]))
+				P.append(self.normalDistributionCalculateFunction(trainE[i], self.mean.iloc[j, i], self.variance.iloc[j, i]))
 			PX = [groupProbility[a] * P[a] for a in range(len(P))]
 		maxIndex = PX.index(max(PX))
 		return self.labels[maxIndex]
 
-	def prediction(self, trainX):
+	#
+	def prediction(self, testY):
 		predictionLabel = []
-		for i in trainX:
-			predictionOutput = self.classification(i)
-			predictionLabel.append(predictionOutput)
+		for i in testY:
+			predictionLabel.append(self.classification(i))
 		return predictionLabel
 
 	#accuracy function
@@ -86,6 +84,7 @@ class NaiveBayes:
 				cnt += 1
 		rec = cnt / dataSetlength
 		return rec
+
 	#f-value function
 	def Fvalue(self, predictionLabel, testLabel):
 		acc = accuracy(predictionLabel, testLabel)
@@ -106,10 +105,5 @@ predictionLabel = ctl.prediction(test)
 print testLabel
 res2 = ctl.accuracy(predictionLabel, testLabel)
 print res2
-
-
-
-
-
 
 
