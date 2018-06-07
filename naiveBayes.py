@@ -11,10 +11,10 @@ import math
 class NaiveBayes:
 	def __init__(self, train=None, trainLabel=None, mean=None, variance=None, classificationGroup=None):
 		self.train = train 			#train data
-		self.trainLabel = trainLabel 			#train data label
+		self.trainLabel = trainLabel 		#train data label
 		self.mean = mean 			#train data mean table (PS:GROUPED)
 		self.variance = variance 			#train data variance table  (PS:GROUPED)
-		self.classificationGroup = classificationGroup 			#GROUP operation - pd.DataFrame
+		self.classificationGroup = classificationGroup 	#GROUP operation - pd.DataFrame
 
 	def fitTransform(self, trainX, trainLabelX):
 		#convert list into pd.dataframe and reserve the labels
