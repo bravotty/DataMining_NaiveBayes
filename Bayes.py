@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
 #!/usr/bin/env python3
 """
 NaiveBayes模型
 author:strewen
 Create On:2018/06/02
 """
+from __future__ import division
 import pandas as pd
 import random
 import math
@@ -49,11 +51,18 @@ class NaiveBayes:
     def fit(self,x,y):
         self.train=pd.DataFrame(x)
         pos=len(self.train.columns)
-        self.train.insert(pos,pos,y)
+        print pos#数据一共有4列
+        # self.train.insert(pos,pos,y)
+        self.train.insert(pos, pos, y)
+
         self.class_group=self.train.groupby(self.train.iloc[:,-1]) #将数据集按标签分组
+        print self.class_group
+
         self.mean=self.class_group.mean()            #获取分组后各特征的均值
         self.var=self.class_group.var()             #获取分组后各特征的方差
-        self.labels=self.class_group.count().index.tolist()  
+        self.labels=self.class_group.count().index.tolist()
+        print self.labels
+
 
     #高斯函数
     def gauss(self,mean,var,value):
@@ -66,12 +75,19 @@ class NaiveBayes:
     #分类函数：分类一个实例 
     def classify(self,sample):
         class_probility=self.class_group.count().iloc[:,-1].tolist()   #各标签的实例总数
+
         class_probility=[class_mem/sum(class_probility) for class_mem in class_probility] #各标签的概率集
+
         for i in range(len(sample)):
             probility=[]
+            # print self.labels
             for j in range(len(self.labels)):
+
+                # print sample[i]
                 probility.append(self.gauss(self.mean.iloc[j,i],self.var.iloc[j,i],sample[i]))
+
             class_probility=[class_probility[k]*probility[k] for k in range(len(probility))]
+
         max_index=class_probility.index(max(class_probility))
         return self.labels[max_index]
 
@@ -85,8 +101,12 @@ class NaiveBayes:
 
 def main():
     x_train,y_train,x_test,y_test=pretreatment()
+
+    # print y_train.columns
     ctl=NaiveBayes()
+
     ctl.fit(x_train,y_train)
+    print x_test
     res=ctl.pred(x_test)
     print(accurracy(res,y_test))
 
