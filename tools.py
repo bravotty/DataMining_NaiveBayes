@@ -3,6 +3,7 @@
 # Date   : 2018-6-6
 # Env    : python2.6
 
+from __future__ import division
 import pandas as pd
 import numpy as np
 
@@ -43,7 +44,34 @@ def createDataSet(splitSize=0.2):
 
 # trainSet, trainLabel, testSet, testlabel  = createDataSet()
 
+    #accuracy function
+def accuracy(predictionLabel, testLabel):
+    cnt = 0
+    for i in range(len(testLabel)):
+        if predictionLabel[i] == testLabel[i]:
+            cnt += 1    
+    acc = cnt / len(testLabel)
+    return acc
 
+    #recall function
+def recall(predictionLabel, testLabel, dataSetlength=59):
+    cnt = 0
+    for i in range(len(testLabel)):
+        if predictionLabel[i] == testLabel[i]:
+            cnt += 1
+    rec = cnt / dataSetlength
+    return rec
+
+    #f-value function
+def Fvalue(predictionLabel, testLabel):
+    acc = accuracy(predictionLabel, testLabel)
+    rec = recall(predictionLabel, testLabel)
+    # if the  denominator == 0: ERR
+    if (acc + rec) == 0:
+        print 'Bad NaiveBayes prediction!'
+        return 0
+    F   = (acc * rec * 2) / (acc + rec)
+    return F
     
 
 

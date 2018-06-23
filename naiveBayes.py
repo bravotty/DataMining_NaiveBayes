@@ -77,34 +77,6 @@ class NaiveBayes:
 			predictionLabel.append(self.classification(testSample))
 		return predictionLabel
 
-	#accuracy function
-	def accuracy(self, predictionLabel, testLabel):
-		cnt = 0
-		for i in range(len(testLabel)):
-			if predictionLabel[i] == testLabel[i]:
-				cnt += 1	
-		acc = cnt / len(testLabel)
-		return acc
-
-	#recall function
-	def recall(self, predictionLabel, testLabel, dataSetlength=59):
-		cnt = 0
-		for i in range(len(testLabel)):
-			if predictionLabel[i] == testLabel[i]:
-				cnt += 1
-		rec = cnt / dataSetlength
-		return rec
-
-	#f-value function
-	def Fvalue(self, predictionLabel, testLabel):
-		acc = self.accuracy(predictionLabel, testLabel)
-		rec = self.recall(predictionLabel, testLabel)
-		# if the  denominator == 0: ERR
-		if (acc + rec) == 0:
-			print 'Bad NaiveBayes prediction!'
-			return 0
-		F   = (acc * rec * 2) / (acc + rec)
-		return F
 
 
 #from tools to create the train,trainlabel,test,testlabel
@@ -116,9 +88,9 @@ NaiveBayesModel.fitTransform(train,trainLabel)
 #test the model with the testData
 predictionLabel = NaiveBayesModel.prediction(test)
 #calculate the acc, rec and F between predict result and testLabel
-acc = NaiveBayesModel.accuracy(predictionLabel, testLabel)
-rec = NaiveBayesModel.recall(predictionLabel, testLabel)
-F   = NaiveBayesModel.Fvalue(predictionLabel, testLabel)
+acc = tl.accuracy(predictionLabel, testLabel)
+rec = tl.recall(predictionLabel, testLabel)
+F   = tl.Fvalue(predictionLabel, testLabel)
 #print the acc, rec and F
 print 'NaiveBayesModel Accuracy : ' + str(acc)
 print 'NaiveBayesModel Recall   : ' + str(rec)
