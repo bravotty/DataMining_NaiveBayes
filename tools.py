@@ -38,13 +38,32 @@ def createDataSet(splitSize=0.2):
     trainSet   = [a[:-1] for a in trainSet]
     testlabel  = [a[-1]  for a in testSet]
     testSet    = [a[:-1] for a in testSet]
-    # print testSet
+
+    # for i in range(len(trainSet[0])):
+    #     temp = [a[i] for a in trainSet]
+    #     maxNumber = max(temp)
+    #     minNumber = min(temp)
+    #     #standardize the dataSet
+    #     for j in range(len(trainSet)):
+    #         denominator = maxNumber - minNumber
+    #         trainSet[j][i] = (trainSet[j][i] - minNumber) / denominator
+
+    # for i in range(len(testSet[0])):
+    #     temp = [a[i] for a in testSet]
+    #     maxNumber = max(temp)
+    #     minNumber = min(temp)
+    #     #standardize the dataSet
+    #     for j in range(len(testSet)):
+    #         denominator = maxNumber - minNumber
+    #         testSet[j][i] = (testSet[j][i] - minNumber) / denominator
+    #print trainSet
+    #print testSet
     # print testlabel
     return trainSet, trainLabel, testSet, testlabel
 
-# trainSet, trainLabel, testSet, testlabel  = createDataSet()
+trainSet, trainLabel, testSet, testlabel  = createDataSet()
 
-    #accuracy function
+#accuracy function
 def accuracy(predictionLabel, testLabel):
     cnt = 0
     for i in range(len(testLabel)):
@@ -53,7 +72,7 @@ def accuracy(predictionLabel, testLabel):
     acc = cnt / len(testLabel)
     return acc
 
-    #recall function
+#recall function
 def recall(predictionLabel, testLabel, dataSetlength=59):
     cnt = 0
     for i in range(len(testLabel)):
@@ -62,7 +81,7 @@ def recall(predictionLabel, testLabel, dataSetlength=59):
     rec = cnt / dataSetlength
     return rec
 
-    #f-value function
+#f-value function
 def Fvalue(predictionLabel, testLabel):
     acc = accuracy(predictionLabel, testLabel)
     rec = recall(predictionLabel, testLabel)

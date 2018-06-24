@@ -8,7 +8,7 @@ import pandas as pd
 import tools as tl
 import math
 
-class NaiveBayes:
+class NaiveBayes(object):
 	def __init__(self, train=None, trainLabel=None, mean=None, variance=None, classificationGroup=None):
 		self.train = train 				#train data
 		self.trainLabel = trainLabel 			#train data label
@@ -78,22 +78,25 @@ class NaiveBayes:
 		return predictionLabel
 
 
+def NaiveBayesModelMain():
+	#from tools to create the train,trainlabel,test,testlabel
+	train, trainLabel, test, testLabel = tl.createDataSet()
+	#declare the naivebayed model
+	NaiveBayesModel = NaiveBayes()
+	#fit the params of the model with train and trainlabel
+	NaiveBayesModel.fitTransform(train,trainLabel)
+	#test the model with the testData
+	predictionLabel = NaiveBayesModel.prediction(test)
+	#calculate the acc, rec and F between predict result and testLabel from tools
+	acc = tl.accuracy(predictionLabel, testLabel)
+	rec = tl.recall(predictionLabel, testLabel)
+	F   = tl.Fvalue(predictionLabel, testLabel)
+	#print the acc, rec and F
+	print 'NaiveBayesModel Accuracy : ' + str(acc)
+	print 'NaiveBayesModel Recall   : ' + str(rec)
+	print 'NaiveBayesModel F-value  : ' + str(F)
 
-#from tools to create the train,trainlabel,test,testlabel
-train, trainLabel, test, testLabel = tl.createDataSet()
-#declare the naivebayed model
-NaiveBayesModel = NaiveBayes()
-#fit the params of the model with train and trainlabel
-NaiveBayesModel.fitTransform(train,trainLabel)
-#test the model with the testData
-predictionLabel = NaiveBayesModel.prediction(test)
-#calculate the acc, rec and F between predict result and testLabel
-acc = tl.accuracy(predictionLabel, testLabel)
-rec = tl.recall(predictionLabel, testLabel)
-F   = tl.Fvalue(predictionLabel, testLabel)
-#print the acc, rec and F
-print 'NaiveBayesModel Accuracy : ' + str(acc)
-print 'NaiveBayesModel Recall   : ' + str(rec)
-print 'NaiveBayesModel F-value  : ' + str(F)
-
+if __name__ == '__main__':
+	#main func start
+	NaiveBayesModelMain()
 
