@@ -44,7 +44,7 @@ class NaiveBayes(object):
     	#initial with eg nums of labels
 		groupNum = self.classificationGroup.count()
 		groupNumLabel = groupNum.iloc[:, -1].tolist();
-		#cal the P(Y) = [..., ... , ..., ...]
+		#cal the P(Y) = [..., ... , ..., ...] 
 		groupProbility = [n / sum(groupNumLabel) for n in groupNumLabel]
 		# print trainE --> result
 		# trainE = [150, 7.1, 7.9, 0.75] list
