@@ -9,8 +9,10 @@
 [license]: https://github.com/bravotty/DataMining_NaiveBayes/blob/master/LICENSE
 
 
+```
 A python implementation of NaiveBayes
-Env       : Python 2.6
+Env     : Python 2.6
+```
 
 ## Usage     : 
 
@@ -20,19 +22,26 @@ Env       : Python 2.6
 
 ```
 
-
 ## Defination :
 ```lisp
 -- Use pandas DataFrame datatype to handle the NaiveBayes Model
 -- mean     -> dataFrame.mean()
 -- variance -> dataFrame.variance()
-class NaiveBayes:
-	def __init__(self, train=None, trainLabel=None, mean=None, variance=None, classificationGroup=None):
-		self.train = train 				#train data
-		self.trainLabel = trainLabel 			#train data label
-		self.mean = mean 				#train data mean table (PS:GROUPED)
-		self.variance = variance 			#train data variance table  (PS:GROUPED)
-		self.classificationGroup = classificationGroup 	#GROUP operation - pd.DataFrame
+-- comments in code file
+
+class NaiveBayes(object):
+	def __init__(self, train=None, trainLabel=None):
+		self.train = pd.DataFrame(train)
+		self.labels = list(set(trainLabel))
+		col = len(self.train.columns)
+		self.train.insert(col, col, trainLabel)
+		self.classificationGroup = self.train.groupby(self.train.iloc[:, -1])
+		self.mean = self.classificationGroup.mean()
+		self.variance  = self.classificationGroup.var()
+
+
+NB = NaiveBayes(trainData, trainDataLabel)
+
 ```
 
 
