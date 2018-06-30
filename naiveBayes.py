@@ -9,22 +9,15 @@ import tools as tl
 import math
 
 class NaiveBayes(object):
-	def __init__(self, train=None, trainLabel=None, mean=None, variance=None, classificationGroup=None):
-		self.train = train 				#train data
-		self.trainLabel = trainLabel 			#train data label
-		self.mean = mean 				#train data mean table (PS:GROUPED)
-		self.variance = variance 			#train data variance table  (PS:GROUPED)
-		self.classificationGroup = classificationGroup 	#GROUP operation - pd.DataFrame
-
-	def fitTransform(self, trainX, trainLabelX):
+	def __init__(self, train=None, trainLabel=None):
 		#convert list into pd.dataframe and reserve the labels
-		self.train = pd.DataFrame(trainX)
-		self.labels = list(set(trainLabelX))
+		self.train = pd.DataFrame(train)
+		self.labels = list(set(trainLabel))
 		# print self.labels
 		#cal the column number of trainX, fruit.txt is 4
 		#insert the label to 4th col
 		col = len(self.train.columns)
-		self.train.insert(col, col, trainLabelX)
+		self.train.insert(col, col, trainLabel)
 		#According the label col ----> group by 4 classes
 		#In order to cal the mean and variance of the Data
 		self.classificationGroup = self.train.groupby(self.train.iloc[:, -1])
@@ -36,8 +29,6 @@ class NaiveBayes(object):
 		# class4  ...
 		self.mean = self.classificationGroup.mean()
 		self.variance  = self.classificationGroup.var()
-		# print self.mean.iloc[2, 3]
-		# print self.variance.iloc[3, 2]
 	
 	#normal distribution calculate function  - > input mean, variance, value
 	def normalDistributionCalculateFunction(self, val, mean, variance):
@@ -77,14 +68,11 @@ class NaiveBayes(object):
 			predictionLabel.append(self.classification(testSample))
 		return predictionLabel
 
-
 def NaiveBayesModelMain():
 	#from tools to create the train,trainlabel,test,testlabel
 	train, trainLabel, test, testLabel = tl.createDataSet()
-	#declare the naivebayed model
-	NaiveBayesModel = NaiveBayes()
-	#fit the params of the model with train and trainlabel
-	NaiveBayesModel.fitTransform(train,trainLabel)
+	#declare the naivebayed model and fit the params of the model with trainSet and trainLabel
+	NaiveBayesModel = NaiveBayes(train, trainLabel)
 	#test the model with the testData
 	predictionLabel = NaiveBayesModel.prediction(test)
 	#calculate the acc, rec and F between predict result and testLabel from tools
