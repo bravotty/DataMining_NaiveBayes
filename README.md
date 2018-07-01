@@ -17,9 +17,8 @@ Env     : Python 2.6
 ## Usage     : 
 
 ```lisp
-	python 2.6
-	python naiveBayes.py
-
+python 2.6
+python naiveBayes.py
 ```
 
 ## Defination :
