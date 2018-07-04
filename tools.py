@@ -12,7 +12,6 @@ def createDataSet(splitSize=0.2):
     #convert pd.DataFrame -> ndarray -> list 
     fruit.head()
     #print fruit.shape
-    labelsDict = {}
     labels = ['mass', 'width', 'height', 'color_score', 'fruit_label']
     #choose the labels fruits data
     trainData = fruit[labels]
@@ -60,8 +59,6 @@ def createDataSet(splitSize=0.2):
     #print testSet
     # print testlabel
     return trainSet, trainLabel, testSet, testlabel
-
-trainSet, trainLabel, testSet, testlabel  = createDataSet()
 
 #accuracy function
 def accuracy(predictionLabel, testLabel):
